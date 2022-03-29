@@ -75,18 +75,7 @@ $container->set(
         }
 );
 
-//////////////////////// EVENTS /////////////////////////////
-// $eventsManager = new EventsManager();
 
-// $eventsManager->attach(
-//     'notifications',
-//     new App\Listeners\NotificationsListeners()
-// );
-
-// $container->set(
-//     'EventsManager',
-//     $eventsManager
-// );
 $eventsManager = new EventsManager();
 
 $eventsManager->attach(

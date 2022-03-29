@@ -7,15 +7,11 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        
-       
-        // return '<h1>Hello World!</h1>';
+        //
     }
     public function addproductAction()
     {
-        
-       
-        // return '<h1>Hello World!</h1>';
+        //
     }
     public function addproductdetailsAction() {
         $products = new Products();
@@ -41,22 +37,18 @@ class IndexController extends Controller
         $products->save();
 
         $id = json_decode(json_encode($products))->id;
-        // die($id);
         $eventsManager = $this->di->get('EventsManager');
         $eventsManager->fire('notifications:setDefault', $this, $id);
-
         $this->response->redirect('/index');
-
-
     }
+
     public function listproductAction() {
         $this->view->productsfind = Products:: find();
     }
     public function orderplaceAction() {
         $this->view->productsfind = Products:: find();
-        // print_r($this->view->productsfind[0]);
-        // die();
     }
+
     public function placeorderAction() {
         $orders = new Orders();
         $data = array(
@@ -67,9 +59,7 @@ class IndexController extends Controller
             'quantity' => $this->escaper->escapeHtml($this->request->getPost('quantity')),
 
         );
-        // print_r($data);
-        // die();
-        
+
         $orders->assign(
             $data,
             [
@@ -125,4 +115,3 @@ class IndexController extends Controller
         $this->response->redirect('/index');
     }
 }
-
