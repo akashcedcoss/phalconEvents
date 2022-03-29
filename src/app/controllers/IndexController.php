@@ -116,18 +116,6 @@ class IndexController extends Controller
              ]
         );
        
-        // print_r($data);
-        // die();
-        // $emp = Settings::find();
-        // echo '<pre>';
-        // if($emp[0]==null){
-        //     echo 1;
-        // }else{
-        //     echo 0;
-        // }
-        // die();
-        // echo count($emp);
-        // die();
         $settingsupdate = Settings:: find();
         $settingsupdate[0]->title = $data['title'];
         $settingsupdate[0]->price = $data['price'];
