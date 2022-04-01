@@ -11,6 +11,7 @@ use Phalcon\Url;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Config;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Acl\Adapter\Memory;
 
 
 $config = new Config([]);
@@ -61,6 +62,7 @@ $application = new Application($container);
 
 
 
+
 $container->set(
     'db',
     function () {
@@ -82,6 +84,23 @@ $eventsManager->attach(
     'notifications',
     new App\Listeners\NotificationsListeners()
 );
+$eventsManager->attach(
+    'application:beforeHandleRequest',
+    new App\Listeners\NotificationsListeners()
+
+);
+
+
+
+
+// Setup the $acl
+// ...
+
+// Bind the eventsManager to the ACL component
+$application->setEventsManager($eventsManager);
+
+
+
 
 $container->set(
     'EventsManager',

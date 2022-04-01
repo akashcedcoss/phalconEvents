@@ -114,4 +114,41 @@ class IndexController extends Controller
         $settingsupdate[0]->save();
         $this->response->redirect('/index');
     }
+    public function eventAction() {
+        echo "Hello";
+    }
+    public function addroleAction() {
+
+    }
+    public function addroledataAction() {
+        $role = new Role();
+        $data = array(
+            'role' => $this->escaper->escapeHtml($this->request->getPost('newrole')),
+            
+        );
+        $role->assign(
+            $data,
+            [
+            'role',
+            ]
+        );
+        $crole = Role::find();
+        if (count($crole)<3) {
+            $role->save();
+        }
+        $this->response->redirect('/index');
+
+        
+    }
+    public function addcomponentAction() {
+        $components = array
+        (
+            'index' => ['listproduct', 'listorder'],
+            'secure' => ['BuildACL'],
+        );
+        echo "<pre>";
+        print_r($components);
+        $this->view->component = $components;
+        
+    }
 }

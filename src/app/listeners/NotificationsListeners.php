@@ -8,6 +8,8 @@ use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Products;
 use Settings;
+use Phalcon\Mvc\Controller;
+use Phalcon\Acl\Adapter\Memory;
 
 class NotificationsListeners extends Injectable
 {
@@ -48,6 +50,56 @@ class NotificationsListeners extends Injectable
         if ($settings->zipcode != null && ($order->zipcode == null || $order->zipcode == 0)) {
             $order->zipcode = $settings->zipcode;
             $order->update();
+        }
+    }
+    public function beforeHandleRequest(Event $event, \Phalcon\Mvc\Application $application)
+    {
+        $aclFile = APP_PATH.'/security/acl.cache';
+
+        if (true === is_file($aclFile)) {
+            // $controller = $this->router->getControllerName();
+            // $action = $this->router->getActionName();
+            // echo $controller.' '.$action;
+            // die;
+            $acl = unserialize(file_get_contents($aclFile));
+            $role = $application->request->getQuery('role');
+            // $role = $application->request->getQuery('role');
+
+            if ($this->router->getControllerName()=="") {
+                $controller = "index";
+            } else {
+                $controller = $this->router->getControllerName();
+            }
+
+            if ($this->router->getActionName()=="") {
+                $action = "index";
+            } else {
+                $action = $this->router->getActionName();
+            }
+            
+
+                       
+            if (!$role || true !== $acl->isAllowed($role, $controller, $action)) {
+                echo 'Access Denied :( ';
+                die;
+            }
+        } else {
+            $acl = new Memory();
+
+            $acl->addRole('admin');
+
+            $acl->addComponent(
+                'test',
+                [
+                    'eventtest'
+                ]
+            );
+
+            $acl->allow('admin', '*', '*');
+            file_put_contents(
+                $aclFile,
+                serialize($acl)
+            );
         }
     }
 }

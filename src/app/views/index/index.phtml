@@ -33,4 +33,18 @@ echo $this->tag->linkTo(
         'Settings',
         'class' => 'btn btn-primary w-25'
     ]
+).'<br> <br>';
+echo $this->tag->linkTo(
+    [
+        '/index/addrole',
+        'Add Role',
+        'class' => 'btn btn-primary w-25'
+    ]
+).'<br> <br>';
+echo $this->tag->linkTo(
+    [
+        '/index/addcomponent',
+        'Add Component',
+        'class' => 'btn btn-primary w-25'
+    ]
 );
